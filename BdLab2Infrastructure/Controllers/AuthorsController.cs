@@ -37,14 +37,12 @@ WHERE FA.Id NOT IN (
 AND EXISTS (
     SELECT 1
     FROM AuthorsPublications PA_FA
-    -- ВИПРАВЛЕННЯ ТУТ: PA_FA.PublicationsId (з 's') та PS_FA.PublicationId (без 's')
     JOIN PublicationSubject PS_FA ON PA_FA.PublicationsId = PS_FA.PublicationId 
     WHERE PA_FA.AuthorId = FA.Id
       AND PS_FA.SubjectId IN (
         SELECT DISTINCT PS_A1.SubjectId
         FROM Authors A1
         JOIN AuthorsPublications PA_A1 ON A1.Id = PA_A1.AuthorId
-        -- І ВИПРАВЛЕННЯ ТУТ: PA_A1.PublicationsId (з 's') та PS_A1.PublicationId (без 's')
         JOIN PublicationSubject PS_A1 ON PA_A1.PublicationsId = PS_A1.PublicationId 
         WHERE A1.LastName = {0}
       )
